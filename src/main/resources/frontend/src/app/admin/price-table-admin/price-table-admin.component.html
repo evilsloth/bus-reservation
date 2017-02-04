@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-2">Price per kilometer:</div>
+    <div class="col-md-4">
+        <input type="text"
+               name="price"
+               class="form-control"
+               id="price"
+               placeholder="Price per kilometer"
+               pattern="^(\d+(\.\d{1,2})?)$"
+               [(ngModel)]="priceTable.pricePerKilometer"
+               #price="ngModel"
+               required/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">Tax percent:</div>
+    <div class="col-md-4">
+        <input type="text"
+               name="taxPercent"
+               class="form-control"
+               id="taxPercent"
+               placeholder="TaxPercent"
+               pattern="^(\d+(\.\d{1,2})?)$"
+               [(ngModel)]="priceTable.taxPercent"
+               #taxPercent="ngModel"
+               required/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-success pull-right"
+                [disabled]="!price.valid || !taxPercent.valid"
+                (click)="updatePriceTable()">
+            <i class="fa fa-floppy-o"></i>
+        </button>
+    </div>
+</div>

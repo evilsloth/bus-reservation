@@ -1,0 +1,109 @@
+<table class="table table-bordered table-striped">
+    <thead class="thead-inverse">
+    <tr>
+        <th>id</th>
+        <th>Start place</th>
+        <th>End place</th>
+        <th>Distance</th>
+        <th>Departure date</th>
+        <th>Arrival date</th>
+        <th>Places</th>
+        <th>Taken places</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let connection of connections; trackBy: connection?.id; let last = last">
+        <th>{{connection.id}}</th>
+        <td>
+            <input type="text"
+                   name="startPlace"
+                   class="form-control"
+                   id="startPlace"
+                   placeholder="Start place"
+                   [(ngModel)]="connection.startPlace"
+                   #startPlace="ngModel"
+                   required/>
+        </td>
+        <td>
+            <input type="text"
+                   name="endPlace"
+                   class="form-control"
+                   id="endPlace"
+                   placeholder="End place"
+                   [(ngModel)]="connection.endPlace"
+                   #endPlace="ngModel"
+                   required/>
+        </td>
+        <td>
+            <input type="text"
+                   name="distance"
+                   class="form-control"
+                   id="distance"
+                   min="0"
+                   placeholder="Distance"
+                   pattern="^(\d+(\.\d{1,2})?)$"
+                   [(ngModel)]="connection.distance"
+                   #distance="ngModel"
+                   required/>
+        </td>
+        <td>
+            <input
+                name="departureDate"
+                class="form-control"
+                first-day-of-week="1"
+                [(ngModel)]="connection.departureDate"
+                ng2-datetime-picker
+                date-format="YYYY-MM-DD HH:mm"
+                parse-format="YYYY-MM-DD HH:mm"
+                #departureDate="ngModel"
+                required />
+        </td>
+        <td>
+            <input
+                name="arrivalDate"
+                class="form-control"
+                first-day-of-week="1"
+                [(ngModel)]="connection.arrivalDate"
+                ng2-datetime-picker
+                date-format="YYYY-MM-DD HH:mm"
+                parse-format="YYYY-MM-DD HH:mm"
+                #arrivalDate="ngModel"
+                required />
+        </td>
+        <td>
+            <input type="number"
+                   name="distance"
+                   class="form-control"
+                   id="places"
+                   placeholder="Places"
+                   min="0"
+                   pattern="^(\d+)$"
+                   [(ngModel)]="connection.places"
+                   #places="ngModel"
+                   required/>
+        </td>
+        <td>
+            {{connection.takenPlaces}}
+        </td>
+        <td class="buttons-row" *ngIf="!last">
+            <button class="btn btn-success"
+                    [disabled]="!startPlace.valid || !endPlace.valid || !distance.valid || !departureDate.valid
+                        || !arrivalDate.valid || !places.valid"
+                    (click)="updateConnection(connection)">
+                <i class="fa fa-floppy-o"></i>
+            </button>
+            <button class="btn btn-danger" (click)="deleteConnection(connection.id)"><i class="fa fa-trash"></i>
+            </button>
+        </td>
+        <td class="buttons-row" *ngIf="last">
+            <button class="btn btn-success"
+                    [disabled]="!startPlace.valid || !endPlace.valid || !distance.valid || !departureDate.valid
+                        || !arrivalDate.valid || !places.valid"
+                    (click)="addConnection(connection)">
+                <i class="fa fa-plus"></i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

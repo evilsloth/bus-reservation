@@ -1,0 +1,86 @@
+<table class="table table-bordered table-striped">
+    <thead class="thead-inverse">
+    <tr>
+        <th>id</th>
+        <th>E-mail</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone number</th>
+        <th colspan="2">Roles</th>
+        <th>Activated?</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users; trackBy: user?.id">
+        <th scope="row">{{user.id}}</th>
+        <td>
+            <input type="email"
+                   name="email"
+                   class="form-control"
+                   id="email"
+                   placeholder="E-mail address"
+                   pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                   [(ngModel)]="user.email"
+                   #email="ngModel"
+                   required/>
+        </td>
+        <td>
+            <input type="text"
+                   name="firstName"
+                   class="form-control"
+                   id="firstName"
+                   placeholder="First name"
+                   [(ngModel)]="user.firstname"
+                   maxlength="100"
+                   #firstName="ngModel"
+                   required/>
+        </td>
+        <td>
+            <input type="text"
+                   name="lastName"
+                   class="form-control"
+                   id="lastName"
+                   placeholder="Last name"
+                   [(ngModel)]="user.lastname"
+                   maxlength="100"
+                   #lastName="ngModel"
+                   required/>
+        </td>
+        <td>
+            <input type="text"
+                   name="phoneNumber"
+                   class="form-control"
+                   id="phoneNumber"
+                   placeholder="Phone number"
+                   [(ngModel)]="user.phoneNumber"
+                   pattern="\d{9,11}"
+                   #phoneNumber="ngModel"
+                   required/>
+        </td>
+        <td>
+            <span class="role" *ngFor="let role of user.roles">{{role.name}}&nbsp;</span>
+        </td>
+        <td>
+            <button class="btn btn-warning pull-right" (click)="editRoles(user)"><i class="fa fa-pencil"></i></button>
+        </td>
+        <td>
+            <input type="checkbox"
+                   name="accountActivated"
+                   class="form-control"
+                   id="accountActivated"
+                   [(ngModel)]="user.activated"
+                   pattern="\d{9,11}"
+                   #accountActivated="ngModel"/>
+        </td>
+        <td class="buttons-row">
+            <button class="btn btn-success"
+                    [disabled]="!email.valid || !firstName.valid || !lastName.valid || !phoneNumber.valid"
+                    (click)="updateUser(user)">
+                <i class="fa fa-floppy-o"></i>
+            </button>
+            <button class="btn btn-danger" (click)="deleteUser(user.id)"><i class="fa fa-trash"></i></button>
+        </td>
+    </tr>
+    </tbody>
+</table>

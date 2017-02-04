@@ -1,0 +1,57 @@
+<table class="table table-bordered table-striped">
+    <thead class="thead-inverse">
+    <tr>
+        <th>Ticket number</th>
+        <th>Booking date</th>
+        <th>User</th>
+        <th>{{'startPlace' | translate}}</th>
+        <th>{{'endPlace' | translate}}</th>
+        <th>{{'distance' | translate}}</th>
+        <th>{{'departureDate' | translate}}</th>
+        <th>{{'arrivalDate' | translate}}</th>
+        <th>{{'price' | translate}}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let ticket of tickets; trackBy: ticket?.id">
+        <th>
+            {{ticket.ticketNumber}}
+        </th>
+        <td>
+            {{ticket.reservationDate}}
+        </td>
+        <td>
+            {{ticket.user.email}}
+            <div>{{ticket.user.lastname}} {{ticket.user.firstname}}</div>
+        </td>
+        <td>
+            {{ticket.connection.startPlace}}
+        </td>
+        <td>
+            {{ticket.connection.endPlace}}
+        </td>
+        <td>
+            {{ticket.connection.distance}}
+        </td>
+        <td>
+            {{ticket.connection.departureDate}}
+        </td>
+        <td>
+            {{ticket.connection.arrivalDate}}
+        </td>
+        <td>
+            {{(ticket.price).toFixed(2)}} PLN
+        </td>
+        <td class="buttons-row">
+            <button class="btn btn-danger"
+                    (click)="deleteTicket(ticket)">
+                <i class="fa fa-trash"></i>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td *ngIf="tickets.length === 0" class="no-tickets" colspan="99">Brak biletów!</td>
+    </tr>
+    </tbody>
+</table>

@@ -1,0 +1,128 @@
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group"
+             [class.has-danger]="minDate.errors">
+            <label for="minDate" class="form-control-label">{{'minDateFilter' | translate}}</label>
+            <input
+                name="departureFilter"
+                id="minDate"
+                class="form-control"
+                first-day-of-week="1"
+                [(ngModel)]="filters.dateMin"
+                ng2-datetime-picker
+                date-format="YYYY-MM-DD HH:mm"
+                parse-format="YYYY-MM-DD HH:mm"
+                #minDate="ngModel" />
+            <div *ngIf="minDate.errors">
+                Invalid date!
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group" [class.has-danger]="maxDate.errors">
+            <label for="minDate" class="form-control-label">{{'maxDateFilter' | translate}}</label>
+            <input
+                name="departureFilter"
+                id="maxDate"
+                class="form-control"
+                first-day-of-week="1"
+                [(ngModel)]="filters.dateMax"
+                ng2-datetime-picker
+                date-format="YYYY-MM-DD HH:mm"
+                parse-format="YYYY-MM-DD HH:mm"
+                #maxDate="ngModel" />
+            <div *ngIf="maxDate.errors">
+                Invalid date!
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group" [class.has-danger]="startPlace.errors">
+            <label for="startPlace" class="form-control-label">{{'startPlace' | translate}}</label>
+            <input type="text"
+                   name="startPlace"
+                   class="form-control"
+                   id="startPlace"
+                   placeholder="{{'startPlace' | translate}}"
+                   [(ngModel)]="filters.from"
+                   #startPlace="ngModel">
+            <div *ngIf="startPlace.errors">
+                Invalid value!
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group" [class.has-danger]="endPlace.errors">
+            <label for="endPlace" class="form-control-label">{{'endPlace' | translate}}</label>
+            <input type="text"
+                   name="endPlace"
+                   class="form-control"
+                   id="endPlace"
+                   placeholder="{{'endPlace' | translate}}"
+                   [(ngModel)]="filters.to"
+                   #endPlace="ngModel">
+            <div *ngIf="endPlace.errors">
+                Invalid value!
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 filter-buttons">
+        <button class="btn btn-info" (click)="filterConnections()">
+            <i class="fa fa-search"></i>{{'filter' | translate}}
+        </button>
+        <button class="btn btn-danger" (click)="clearFilter()">
+            <i class="fa fa-remove"></i>{{'clearFilter' | translate}}
+        </button>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-inverse">
+    <tr>
+        <th>{{'startPlace' | translate}}</th>
+        <th>{{'endPlace' | translate}}</th>
+        <th>{{'distance' | translate}}</th>
+        <th>{{'departureDate' | translate}}</th>
+        <th>{{'arrivalDate' | translate}}</th>
+        <th>{{'places' | translate}}</th>
+        <th>{{'price' | translate}}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let connection of filteredConnections; trackBy: connection?.id">
+        <td>
+            {{connection.startPlace}}
+        </td>
+        <td>
+            {{connection.endPlace}}
+        </td>
+        <td>
+            {{connection.distance}}
+        </td>
+        <td>
+            {{connection.departureDate}}
+        </td>
+        <td>
+            {{connection.arrivalDate}}
+        </td>
+        <td>
+            {{connection.places - connection.takenPlaces}} / {{connection.places}}
+        </td>
+        <td>
+            {{(connection.distance * pricePerKilometer).toFixed(2)}} PLN
+        </td>
+        <td class="buttons-row">
+            <button class="btn btn-sm btn-info"
+                    *ngIf="userService.isUserAuthenticated()"
+                    [disabled]="!moreThan30MinutesToDeparture(connection) || connection.places - connection.takenPlaces < 1"
+                    (click)="bookTicket(connection)">
+                {{'bookTicket' | translate}}
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td *ngIf="filteredConnections.length === 0" class="no-connections" colspan="99">{{'no_connections' | translate}}</td>
+    </tr>
+    </tbody>
+</table>

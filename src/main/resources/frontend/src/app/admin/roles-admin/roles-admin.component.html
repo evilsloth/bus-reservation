@@ -1,0 +1,108 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Roles</h4>
+</div>
+<div class="modal-body">
+
+    <div class="row">
+        <div class="col-md-6"><h5>User roles</h5></div>
+        <div class="col-md-6"><h5>Available roles</h5></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let role of userRoles; trackBy: role?.id">
+                    <th scope="row">{{role.id}}</th>
+                    <td>{{role.name}}</td>
+                    <td class="buttons-row">
+                        <button class="btn btn-danger" (click)="removeUserRole(role)">
+                            <i class="fa fa-remove"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-inverse">
+                <tr>
+                    <th></th>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let role of roles; trackBy: role?.id">
+                    <td>
+                        <button class="btn btn-info" [disabled]="isRoleAdded(role)" (click)="addUserRole(role)">
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
+                    </td>
+                    <th scope="row">{{role.id}}</th>
+                    <td>
+                        <input type="text"
+                               name="roleName"
+                               class="form-control"
+                               id="roleName"
+                               placeholder="Role name"
+                               [(ngModel)]="role.name"
+                               #roleName="ngModel"
+                               required/>
+                    </td>
+                    <td class="buttons-row">
+                        <button class="btn btn-success"
+                                [disabled]="!roleName.valid"
+                                (click)="updateRole(role)">
+                            <i class="fa fa-floppy-o"></i>
+                        </button>
+                        <button class="btn btn-danger" (click)="deleteRole(role.id)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <input type="text"
+                               name="newRoleName"
+                               class="form-control"
+                               id="newRoleName"
+                               placeholder="New role name"
+                               [(ngModel)]="roleToAdd.name"
+                               #newRoleName="ngModel"
+                               required/>
+                    </td>
+                    <td>
+                        <button class="btn btn-info"
+                                [disabled]="!newRoleName.valid"
+                                (click)="addRole(roleToAdd)">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-success" (click)="acceptChanges()">
+        Accept
+    </button>
+    <button type="button" class="btn btn-danger" (click)="activeModal.dismiss()">Cancel
+    </button>
+</div>

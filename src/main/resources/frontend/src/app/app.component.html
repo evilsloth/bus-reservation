@@ -1,0 +1,83 @@
+<app-alerts></app-alerts>
+<template ngbModalContainer></template>
+
+<div class="page-wrapper">
+    <nav class="navbar navbar-light bg-faded">
+        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive"></button>
+        <div class="collapse navbar-toggleable-md" id="navbarResponsive">
+            <a class="navbar-brand" routerLink="/">
+                <i class="align-top fa fa-bus"></i>
+                {{'appTitle' | translate}}
+            </a>
+            <form #loginForm="ngForm"
+                  *ngIf="!userService.isUserAuthenticated()"
+                  class="form-inline float-xs-right"
+                  (ngSubmit)="loginUser(loginForm.valid)"
+                  novalidate>
+                <div class="input-group" [class.has-danger]="email.errors && (email.dirty || loginForm.submitted)">
+                    <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                    <input type="text"
+                           class="form-control"
+                           name="email"
+                           placeholder="E-mail"
+                           [(ngModel)]="login.email"
+                           pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                           #email="ngModel"
+                           required>
+                </div>
+                <div class="input-group"
+                     [class.has-danger]="password.errors && (password.dirty || loginForm.submitted)">
+                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                    <input type="password"
+                           class="form-control"
+                           name="password"
+                           [(ngModel)]="login.password"
+                           placeholder="{{'passwordPlaceholder' | translate}}"
+                           #password="ngModel"
+                           required>
+                </div>
+                <div class="input-group">
+                    <button class="btn btn-outline-success login-button" type="submit">
+                        {{'loginButton' | translate}}
+                    </button>
+                    <button class="btn btn-outline-danger register-button" type="button" (click)="openRegisterModal()">
+                        {{'registerButton' | translate}}
+                    </button>
+                </div>
+            </form>
+            <div class="float-xs-right" *ngIf="userService.isUserAuthenticated()">
+                <i class="fa fa-user-circle-o user-icon"></i>
+                <div class="user-login">{{userService.getCurrentUser().login}}</div>
+                <button class="btn btn-outline-warning"
+                        routerLink="/tickets">{{'my_tickets' | translate}}
+                </button>
+                <button class="btn btn-outline-info"
+                        *ngIf="userService.userHasPermission('ADMIN')"
+                        routerLink="/admin">{{'administration' | translate}}
+                </button>
+                <button class="btn btn-outline-danger" (click)="logout()">{{'logoutButton' | translate}}</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div ngbDropdown [up]="true" class="d-inline-block float-xs-right">
+            <button class="btn btn-sm btn-outline-secondary" id="dropdownMenu2" ngbDropdownToggle><i class="fa fa-globe"
+                                                                                                     aria-hidden="true"></i>
+                {{'lang' | translate}}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item" (click)="changeLanguage('en')">English</button>
+                <button class="dropdown-item" (click)="changeLanguage('pl')">Polski</button>
+            </div>
+        </div>
+    </div>
+</footer>

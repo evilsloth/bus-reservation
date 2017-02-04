@@ -1,0 +1,59 @@
+<table class="table table-bordered table-striped">
+    <thead class="thead-inverse">
+    <tr>
+        <th>Ticket number</th>
+        <th>Booking date</th>
+        <th>{{'startPlace' | translate}}</th>
+        <th>{{'endPlace' | translate}}</th>
+        <th>{{'distance' | translate}}</th>
+        <th>{{'departureDate' | translate}}</th>
+        <th>{{'arrivalDate' | translate}}</th>
+        <th>{{'price' | translate}}</th>
+        <th>Ticket</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let ticket of tickets; trackBy: ticket?.id">
+        <th>
+            {{ticket.ticketNumber}}
+        </th>
+        <th>
+            {{ticket.reservationDate}}
+        </th>
+        <td>
+            {{ticket.connection.startPlace}}
+        </td>
+        <td>
+            {{ticket.connection.endPlace}}
+        </td>
+        <td>
+            {{ticket.connection.distance}}
+        </td>
+        <td>
+            {{ticket.connection.departureDate}}
+        </td>
+        <td>
+            {{ticket.connection.arrivalDate}}
+        </td>
+        <td>
+            {{(ticket.price).toFixed(2)}} PLN
+        </td>
+        <td>
+            <a class="btn btn-warning" href="/api/ticket-pdf/{{ticket.id}}">
+                <i class="fa fa-download"></i>
+            </a>
+        </td>
+        <td class="buttons-row">
+            <button class="btn btn-sm btn-info"
+                    [disabled]="!moreThan30MinutesToDeparture(ticket.connection)"
+                    (click)="cancelReservation(ticket)">
+                Cancel
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td *ngIf="tickets.length === 0" class="no-tickets" colspan="99">Brak zarezerwowanych biletów!</td>
+    </tr>
+    </tbody>
+</table>
