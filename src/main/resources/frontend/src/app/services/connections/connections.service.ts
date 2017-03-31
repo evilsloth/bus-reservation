@@ -17,7 +17,7 @@ export class ConnectionsService {
     }
 
     updateConnection(connection: Connection): Observable<Connection> {
-        return this.http.put('/connections', connection).map((res: Response) => res.json());
+        return this.http.put('/admin/connections', connection).map((res: Response) => res.json());
     }
 
     removeConnection(id: number): Observable<Response> {

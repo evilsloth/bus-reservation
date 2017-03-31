@@ -46,7 +46,7 @@ public class PdfController {
             generatePdf(ticket);
 
             // retrieve contents of pdf file
-            Path path = Paths.get("temp/output.pdf");
+            Path path = Paths.get("/temp/output.pdf");
             byte[] contents = Files.readAllBytes(path);
 
             HttpHeaders headers = new HttpHeaders();
@@ -68,7 +68,7 @@ public class PdfController {
     private Document generatePdf(Ticket ticket) throws Exception {
         Document document = new Document();
 
-        PdfWriter.getInstance(document, new FileOutputStream("/home/jarek/temp/output.pdf"));
+        PdfWriter.getInstance(document, new FileOutputStream("/temp/output.pdf"));
         document.open();
         PdfPTable table = new PdfPTable(2);
 

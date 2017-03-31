@@ -8,3 +8,15 @@ Project incorporates:
 * E-mail confirmation
 * Single Page Application Angular 2 frontend 
 * Simple REST Api
+
+How to run:
+1. Build front-end
+
+* Go to src/main/resources/frontend
+
+* Run command
+
+    ```npm run dist```
+2. Run spring 
+
+    ```./mvnw spring-boot:run```

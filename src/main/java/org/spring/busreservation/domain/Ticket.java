@@ -15,14 +15,14 @@ public class Ticket {
     private Long id;
     @NotEmpty
     private String ticketNumber;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Connection connection;
     @NotNull
     private BigDecimal price;
     @NotNull
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private Date reservationDate;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private User user;
     @OneToOne(mappedBy = "ticket", cascade = CascadeType.REMOVE)
     private Invoice invoice;

@@ -24,7 +24,7 @@ public class User {
     private String lastname;
     private String phoneNumber;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Role> roles;
     private boolean isActivated;
     private String activationHash;
